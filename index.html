@@ -4,259 +4,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Active Metrics Workspace</title>
-    
-    <!-- Fredoka Font Link Integration -->
     <link rel="preconnect" href="https://googleapis.com">
     <link rel="preconnect" href="https://gstatic.com" crossorigin>
     <link href="https://googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
     <style>
-        :root {
-            --bg: #0A0B07;
-            --card: #14170F;
-            --olive: #585B0A;
-            --lime: #D3D858;
-            --peony: #CE75A1;
-            --dew: #F8FFED;
-            --label: #7E856D;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Fredoka', sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        body {
-            background: var(--bg);
-            color: var(--dew);
-            padding: 16px;
-            overflow-x: hidden;
-        }
-
-        .wrap {
-            max-width: 440px;
-            margin: 0 auto;
-        }
-
-        h1 {
-            font-size: 24px;
-            text-align: center;
-            margin-bottom: 20px;
-            color: var(--dew);
-        }
-
-        h2 {
-            font-size: 16px;
-            color: var(--lime);
-            margin-bottom: 14px;
-        }
-
-        .box {
-            background: var(--card);
-            border: 1px solid var(--olive);
-            border-radius: 16px;
-            padding: 16px;
-            margin-bottom: 16px;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.4);
-        }
-
-        label {
-            display: block;
-            font-size: 11px;
-            color: var(--label);
-            margin-bottom: 4px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .row {
-            position: relative;
-            display: flex;
-            align-items: center;
-            margin-bottom: 12px;
-            gap: 8px;
-        }
-
-        .sign {
-            position: absolute;
-            left: 12px;
-            color: var(--lime);
-            font-weight: 600;
-        }
-
-        input, textarea, select {
-            width: 100%;
-            background: var(--bg);
-            border: 1px solid var(--olive);
-            color: var(--dew);
-            padding: 12px;
-            border-radius: 10px;
-            font-size: 16px;
-            outline: none;
-        }
-
-        input.sign-pad {
-            padding-left: 26px;
-        }
-
-        input:focus, textarea:focus, select:focus {
-            border-color: var(--lime);
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 12px;
-        }
-
-        .item {
-            background: var(--bg);
-            padding: 10px;
-            border-radius: 8px;
-            border-bottom: 2px solid var(--olive);
-        }
-
-        .wide {
-            grid-column: span 2;
-            border-color: var(--peony);
-        }
-
-        .val {
-            font-size: 18px;
-            font-weight: 600;
-            margin-top: 2px;
-        }
-
-        .feed {
-            background: var(--bg);
-            border: 1px solid var(--olive);
-            border-radius: 10px;
-            max-height: 220px;
-            overflow-y: auto;
-        }
-
-        .match {
-            padding: 10px;
-            border-bottom: 1px solid rgba(88,91,10,0.2);
-        }
-
-        .match:last-child {
-            border-bottom: none;
-        }
-
-        .m-meta {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 2px;
-            font-weight: 600;
-        }
-
+        :root { --bg: #0A0B07; --card: #14170F; --olive: #585B0A; --lime: #D3D858; --peony: #CE75A1; --dew: #F8FFED; --label: #7E856D; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Fredoka', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background: var(--bg); color: var(--dew); padding: 16px; overflow-x: hidden; }
+        .wrap { max-width: 440px; margin: 0 auto; }
+        h1 { font-size: 24px; text-align: center; margin-bottom: 20px; color: var(--dew); }
+        h2 { font-size: 16px; color: var(--lime); margin-bottom: 14px; }
+        .box { background: var(--card); border: 1px solid var(--olive); border-radius: 16px; padding: 16px; margin-bottom: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.4); }
+        label { display: block; font-size: 11px; color: var(--label); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .row { position: relative; display: flex; align-items: center; margin-bottom: 12px; gap: 8px; }
+        .sign { position: absolute; left: 12px; color: var(--lime); font-weight: 600; }
+        input, textarea, select { width: 100%; background: var(--bg); border: 1px solid var(--olive); color: var(--dew); padding: 12px; border-radius: 10px; font-size: 16px; outline: none; }
+        input.sign-pad { padding-left: 26px; }
+        input:focus, textarea:focus, select:focus { border-color: var(--lime); }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+        .item { background: var(--bg); padding: 10px; border-radius: 8px; border-bottom: 2px solid var(--olive); }
+        .wide { grid-column: span 2; border-color: var(--peony); }
+        .val { font-size: 18px; font-weight: 600; margin-top: 2px; }
+        .feed { background: var(--bg); border: 1px solid var(--olive); border-radius: 10px; max-height: 240px; overflow-y: auto; }
+        .match { padding: 12px; border-bottom: 1px solid rgba(88,91,10,0.2); display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+        .match:last-child { border-bottom: none; }
+        .m-content { flex-grow: 1; }
+        .m-meta { display: flex; justify-content: space-between; margin-bottom: 2px; font-weight: 600; }
         .m-sum { color: var(--lime); }
         .m-qty { color: var(--peony); font-size: 12px; }
         .m-det { font-size: 13px; opacity: 0.8; word-break: break-all; }
-
-        .btn {
-            background: var(--olive);
-            color: var(--dew);
-            border: none;
-            padding: 14px;
-            border-radius: 10px;
-            font-size: 15px;
-            font-weight: 600;
-            width: 100%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-top: 8px;
-        }
-
+        .btn { background: var(--olive); color: var(--dew); border: none; padding: 14px; border-radius: 10px; font-size: 15px; font-weight: 600; width: 100%; cursor: pointer; display: flex; align-items: center; justify-content: center; margin-top: 8px; }
         .btn:active { opacity: 0.8; }
         .pny { background: var(--peony); color: var(--bg); }
-
-        .clr-btn {
-            background: transparent;
-            border: 1px solid var(--peony);
-            color: var(--peony);
-            width: auto;
-            padding: 6px 12px;
-            font-size: 12px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-        }
-
-        .g-card {
-            background: var(--bg);
-            padding: 14px;
-            border-radius: 12px;
-            margin-bottom: 10px;
-            border: 1px solid var(--olive);
-        }
-
-        .g-meta {
-            display: flex;
-            justify-content: space-between;
-            font-size: 14px;
-            margin-bottom: 6px;
-        }
-
+        .clr-btn { background: transparent; border: 1px solid var(--peony); color: var(--peony); width: auto; padding: 6px 12px; font-size: 12px; border-radius: 8px; cursor: pointer; font-weight: 600; }
+        .copy-mix-btn { background: var(--card); border: 1px solid var(--olive); color: var(--lime); padding: 8px 10px; font-size: 11px; font-weight: 600; border-radius: 8px; cursor: pointer; flex-shrink: 0; text-transform: uppercase; }
+        .copy-mix-btn:active { background: var(--olive); color: var(--dew); }
+        .g-card { background: var(--bg); padding: 14px; border-radius: 12px; margin-bottom: 10px; border: 1px solid var(--olive); }
+        .g-meta { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 6px; }
         .g-title { font-weight: 600; color: var(--dew); }
         .g-amt { color: var(--lime); font-weight: 500; }
-
-        .p-bar-bg {
-            background: #232717;
-            height: 10px;
-            border-radius: 6px;
-            overflow: hidden;
-            margin: 8px 0;
-        }
-
-        .p-bar-fill {
-            background: var(--lime);
-            height: 100%;
-            width: 0%;
-            transition: width 0.3s;
-        }
-
+        .p-bar-bg { background: #232717; height: 10px; border-radius: 6px; overflow: hidden; margin: 8px 0; }
+        .p-bar-fill { background: var(--lime); height: 100%; width: 0%; transition: width 0.3s; }
         .p-bar-fill.done { background: var(--peony); }
-
-        .g-foot {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 11px;
-            color: var(--label);
-            margin-top: 6px;
-        }
-
-        .del {
-            color: var(--peony);
-            background: none;
-            border: none;
-            font-size: 18px;
-            font-weight: 700;
-            cursor: pointer;
-        }
+        .g-foot { display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: var(--label); margin-top: 6px; }
+        .del { color: var(--peony); background: none; border: none; font-size: 18px; font-weight: 700; cursor: pointer; }
     </style>
 </head>
 <body>
-
 <div class="wrap">
     <h1>Active Workspace</h1>
-
-    <!-- 1. SAVINGS TIMELINE SECTION -->
     <div class="box">
         <h2>💰 Savings Projections</h2>
         <label>Savings Rate Amount</label>
-        <div class="row">
-            <span class="sign">$</span>
-            <input type="number" id="rate" class="sign-pad" value="25.00" oninput="calcProjections()">
-        </div>
+        <div class="row"><span class="sign">$</span><input type="number" id="rate" class="sign-pad" value="25.00" oninput="calcProjections()"></div>
         <div class="grid">
             <div class="item"><label>Per Day</label><div class="val" id="d">$0.00</div></div>
             <div class="item"><label>Per Week</label><div class="val" id="w">$0.00</div></div>
@@ -265,30 +65,30 @@
             <div class="item wide"><label>Per Year Projection</label><div class="val" id="y">$0.00</div></div>
         </div>
     </div>
-
-    <!-- 2. HIGH CEILING TARGET MATCHER -->
     <div class="box">
-        <h2>🎯 Range Matcher Target</h2>
-        <label>Target Payout Goal</label>
-        <div class="row">
-            <span class="sign">$</span>
-            <input type="number" id="tgt" class="sign-pad" value="200.00" oninput="matchEngine()">
+        <h2>🎯 Auto-Generated Target Plans</h2>
+        <label>Target Shift Payout Goal</label>
+        <div class="row"><span class="sign">$</span><input type="number" id="tgt" class="sign-pad" value="60.00" oninput="regeneratePool()"></div>
+        <div class="grid" style="margin-top:0; margin-bottom:12px;">
+            <div>
+                <label>Min Order Size ($)</label>
+                <input type="number" id="minSize" value="5.00" step="1.00" oninput="regeneratePool()">
+            </div>
+            <div>
+                <label>Max Order Size ($)</label>
+                <input type="number" id="maxSize" value="45.00" step="1.00" oninput="regeneratePool()">
+            </div>
         </div>
         <label>Tolerance Window (± Offset)</label>
-        <div class="row">
-            <span class="sign">$</span>
-            <input type="number" id="tol" class="sign-pad" value="2.00" step="0.25" oninput="matchEngine()">
-        </div>
+        <div class="row"><span class="sign">$</span><input type="number" id="tol" class="sign-pad" value="1.00" step="0.25" oninput="matchEngine()"></div>
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-            <label style="margin-bottom: 0;">Active Order Pool</label>
-            <button class="clr-btn" onclick="clearPool()">Clear Pool</button>
+            <label style="margin-bottom: 0;">Calculated Math Order Pool</label>
+            <button class="clr-btn" onclick="regeneratePool()">Re-Roll Pool</button>
         </div>
-        <textarea id="pool" rows="3" oninput="matchEngine()">45.50, 62.00, 18.25, 90.10, 33.40, 55.00, 24.50</textarea>
-        <label style="margin: 10px 0 6px 0;">Optimized Options Found</label>
+        <textarea id="pool" rows="3" oninput="matchEngine()" placeholder="Generating numbers..."></textarea>
+        <label style="margin: 10px 0 6px 0;">Possible Math Combinations</label>
         <div class="feed" id="out"></div>
     </div>
-
-    <!-- 3. PROGRESS METRIC CARDS -->
     <div class="box">
         <h2>🏁 Progress & Milestones</h2>
         <div id="gFeed"></div>
@@ -296,22 +96,14 @@
             <label>Goal Title</label>
             <input type="text" id="gTitle" placeholder="e.g., Emergency Reserve Fund" style="margin-bottom: 10px;">
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
-                <div>
-                    <label>Current Amount ($)</label>
-                    <input type="number" id="gCurrent" value="0">
-                </div>
-                <div>
-                    <label>Target Goal ($)</label>
-                    <input type="number" id="gTarget" value="500">
-                </div>
+                <div><label>Current Amount ($)</label><input type="number" id="gCurrent" value="0"></div>
+                <div><label>Target Goal ($)</label><input type="number" id="gTarget" value="500"></div>
             </div>
             <label>Target Completion Deadline</label>
             <input type="date" id="gDate" style="margin-bottom: 10px;">
             <button class="btn pny" onclick="addMilestone()">＋ Save Progress Metric</button>
         </div>
     </div>
-
-    <!-- 4. PROFILE RESTORE UTILITIES -->
     <div class="box" style="border-style: dashed;">
         <p style="font-size: 12px; color: var(--label); margin-bottom: 8px;">Data auto-saves locally to browser profiles.</p>
         <button class="btn" onclick="exportStr()">📋 Clipboard String Export</button>
@@ -320,12 +112,17 @@
 </div>
 <script>
     let goals = [{title: "Weekly Reserve Fund", current: 150, target: 500, date: "2026-09-30"}];
-    
     window.onload = function() {
         if(localStorage.getItem('r')) document.getElementById('rate').value = localStorage.getItem('r');
         if(localStorage.getItem('t')) document.getElementById('tgt').value = localStorage.getItem('t');
         if(localStorage.getItem('o')) document.getElementById('tol').value = localStorage.getItem('o');
-        if(localStorage.getItem('p')) document.getElementById('pool').value = localStorage.getItem('p');
+        if(localStorage.getItem('min_s')) document.getElementById('minSize').value = localStorage.getItem('min_s');
+        if(localStorage.getItem('max_s')) document.getElementById('maxSize').value = localStorage.getItem('max_s');
+        if(localStorage.getItem('p')) {
+            document.getElementById('pool').value = localStorage.getItem('p');
+        } else {
+            generateMathPoolValues();
+        }
         if(localStorage.getItem('g_v2')) {
             try { goals = JSON.parse(localStorage.getItem('g_v2')) || []; } catch(e) {}
         }
@@ -333,179 +130,111 @@
         matchEngine();
         drawGoals();
     };
-
-    function clearPool() {
-        document.getElementById('pool').value = "";
-        matchEngine();
+    function generateMathPoolValues() {
+        let tgt = parseFloat(document.getElementById('tgt').value) || 60;
+        let minS = parseFloat(document.getElementById('minSize').value) || 5;
+        let maxS = parseFloat(document.getElementById('maxSize').value) || 45;
+        localStorage.setItem('min_s', minS);
+        localStorage.setItem('max_s', maxS);
+        let pieces = [];
+        let randomCentOptions = [0.00, 0.25, 0.50, 0.75];
+        
+        if (maxS > tgt) maxS = tgt;
+        
+        if (maxS >= 25) {
+            let highOrderCount = Math.floor(Math.random() * 2) + 1;
+            for(let h=0; h<highOrderCount; h++) {
+                let rawHigh = 25 + (Math.random() * (maxS - 25));
+                let change = randomCentOptions[Math.floor(Math.random() * randomCentOptions.length)];
+                let highVal = Math.floor(rawHigh) + change;
+                if(highVal <= tgt) pieces.push(parseFloat(highVal.toFixed(2)));
+            }
+        }
+        
+        let runCount = 0;
+        while(pieces.reduce((a,b)=>a+b, 0) < (tgt * 1.5) && pieces.length < 13 && runCount < 150) {
+            runCount++;
+            let rawVal = minS + (Math.random() * (Math.min(maxS, 24) - minS));
+            let change = randomCentOptions[Math.floor(Math.random() * randomCentOptions.length)];
+            let orderVal = Math.floor(rawVal) + change;
+            if(orderVal >= minS && orderVal <= maxS && orderVal <= tgt) {
+                pieces.push(parseFloat(orderVal.toFixed(2)));
+            }
+        }
+        
+        pieces.sort((a,b)=>b-a);
+        document.getElementById('pool').value = pieces.join(', ');
+        localStorage.setItem('p', pieces.join(', '));
     }
-
+    function regeneratePool() { generateMathPoolValues(); matchEngine(); }
     function calcProjections() {
-        let a = parseFloat(document.getElementById('rate').value) || 0;
-        localStorage.setItem('r', a);
+        let a = parseFloat(document.getElementById('rate').value) || 0; localStorage.setItem('r', a);
         document.getElementById('d').innerText = `$${a.toFixed(2)}`;
         document.getElementById('w').innerText = `$${(a * 7).toFixed(2)}`;
         document.getElementById('m').innerText = `$${(a * 30.42).toFixed(2)}`;
         document.getElementById('q').innerText = `$${(a * 91.25).toFixed(2)}`;
         document.getElementById('y').innerText = `$${(a * 365).toFixed(2)}`;
     }
-
+    function clipMix(textVal) { navigator.clipboard.writeText(textVal).then(() => { alert("📋 Combination copied to your clipboard!"); }).catch(() => { alert("Plan breakdown:\n" + textVal); }); }
+    
     function matchEngine() {
         let t = parseFloat(document.getElementById('tgt').value) || 0;
         let o = parseFloat(document.getElementById('tol').value) || 0;
         let p = document.getElementById('pool').value || "";
-        let f = document.getElementById('out');
-        if(!f) return;
-
-        localStorage.setItem('t', t);
-        localStorage.setItem('o', o);
-        localStorage.setItem('p', p);
-
-        let lo = t - o;
-        let hi = t + o;
+        let f = document.getElementById('out'); if(!f) return;
+        localStorage.setItem('t', t); localStorage.setItem('o', o); localStorage.setItem('p', p);
+        let lo = t - o, hi = t + o;
         let items = p.split(',').map(x => parseFloat(x.trim())).filter(x => !isNaN(x) && x > 0 && x <= hi);
-
-        if(items.length === 0) {
-            f.innerHTML = `<div style="padding: 12px; text-align: center; color: var(--label); font-size: 13px;">Awaiting order numbers...</div>`;
-            return;
-        }
-
+        if(items.length === 0) { f.innerHTML = `<div style="padding: 12px; text-align: center; color: var(--label); font-size: 13px;">Awaiting order numbers...</div>`; return; }
+        
         let res = [];
-        let lim = Math.min(items.length, 16);
+        let lim = Math.min(items.length, 14);
         let pool = items.slice(0, lim);
         let combos = 1 << pool.length;
-
+        
         for (let i = 1; i < combos; i++) {
             let sub = [], sum = 0;
-            for (let j = 0; j < pool.length; j++) {
-                if ((i & (1 << j)) !== 0) {
-                    sub.push(pool[j]);
-                    sum += pool[j];
-                }
-            }
-            if (sum >= lo && sum <= hi) {
-                res.push({
-                    tot: parseFloat(sum.toFixed(2)),
-                    cnt: sub.length,
-                    det: sub.map(n => `$${n.toFixed(2)}`).join(' + ')
-                });
-            }
+            for (let j = 0; j < pool.length; j++) { if ((i & (1 << j)) !== 0) { sub.push(pool[j]); sum += pool[j]; } }
+            if (sum >= lo && sum <= hi) { res.push({ tot: parseFloat(sum.toFixed(2)), cnt: sub.length, det: sub.map(n => `$${n.toFixed(2)}`).join(' + ') }); }
         }
-
         res.sort((a,b) => Math.abs(t - a.tot) - Math.abs(t - b.tot) || a.cnt - b.cnt);
-
-        if(res.length === 0) {
-            f.innerHTML = `<div style="padding: 12px; text-align: center; color: var(--peony); font-size: 13px;">⚠️ No matches fit range window.</div>`;
-            return;
-        }
-
+        if(res.length === 0) { f.innerHTML = `<div style="padding: 12px; text-align: center; color: var(--peony); font-size: 13px;">⚠️ No matches fit parameters. Click Re-Roll Pool.</div>`; return; }
         f.innerHTML = "";
         res.slice(0, 25).forEach(m => {
-            let b = document.createElement('div');
-            b.className = 'match';
-            b.innerHTML = `
-                <div class="m-meta">
-                    <span class="m-sum">$${m.tot.toFixed(2)}</span>
-                    <span class="m-qty">${m.cnt} split</span>
-                </div>
-                <div class="m-det">${m.det}</div>
-            `;
+            let b = document.createElement('div'); b.className = 'match';
+            let clipPayload = `Total: $${m.tot.toFixed(2)} (${m.cnt} orders) -> ${m.det}`;
+            b.innerHTML = `<div class="m-content"><div class="m-meta"><span class="m-sum">$${m.tot.toFixed(2)}</span><span class="m-qty">${m.cnt} orders</span></div><div class="m-det">${m.det}</div></div><button class="copy-mix-btn" onclick="clipMix('${clipPayload}')">Copy</button>`;
             f.appendChild(b);
         });
     }
-
     function drawGoals() {
-        let b = document.getElementById('gFeed');
-        if(!b) return;
-        b.innerHTML = "";
-
-        if(goals.length === 0) {
-            b.innerHTML = `<div style="padding: 8px; text-align: center; color: var(--label); font-size: 13px;">No metric bars setup yet.</div>`;
-            return;
-        }
-
+        let b = document.getElementById('gFeed'); if(!b) return; b.innerHTML = "";
+        if(goals.length === 0) { b.innerHTML = `<div style="padding: 8px; text-align: center; color: var(--label); font-size: 13px;">No metric bars setup yet.</div>`; return; }
         goals.forEach((g, i) => {
-            let pct = Math.min(Math.round((g.current / g.target) * 100), 100);
-            if(isNaN(pct) || pct < 0) pct = 0;
-            
-            let r = document.createElement('div');
-            r.className = 'g-card';
-            r.innerHTML = `
-                <div class="g-meta">
-                    <span class="g-title">🏁 ${g.title}</span>
-                    <span class="g-amt">$${g.current} / $${g.target}</span>
-                </div>
-                <div class="p-bar-bg">
-                    <div class="p-bar-fill ${pct >= 100 ? 'done' : ''}" style="width: ${pct}%"></div>
-                </div>
-                <div class="g-foot">
-                    <span>Progress: ${pct}% ${g.date ? ' | Due: ' + g.date : ''}</span>
-                    <button class="del" onclick="delMilestone(${i})">×</button>
-                </div>
-            `;
+            let pct = Math.min(Math.round((g.current / g.target) * 100), 100); if(isNaN(pct) || pct < 0) pct = 0;
+            let r = document.createElement('div'); r.className = 'g-card';
+            r.innerHTML = `<div class="g-meta"><span class="g-title">🏁 ${g.title}</span><span class="g-amt">$${g.current} / $${g.target}</span></div><div class="p-bar-bg"><div class="p-bar-fill ${pct >= 100 ? 'done' : ''}" style="width: ${pct}%"></div></div><div class="g-foot"><span>Progress: ${pct}% ${g.date ? ' | Due: ' + g.date : ''}</span><button class="del" onclick="delMilestone(${i})">×</button></div>`;
             b.appendChild(r);
         });
         localStorage.setItem('g_v2', JSON.stringify(goals));
     }
-
     function addMilestone() {
-        let t = document.getElementById('gTitle');
-        let c = document.getElementById('gCurrent');
-        let g = document.getElementById('gTarget');
-        let d = document.getElementById('gDate');
-
-        if(t && t.value.trim() !== "") {
-            goals.push({
-                title: t.value.trim(),
-                current: parseFloat(c.value) || 0,
-                target: parseFloat(g.value) || 1,
-                date: d.value || ""
-            });
-            t.value = "";
-            c.value = "0";
-            g.value = "500";
-            d.value = "";
-            drawGoals();
-        }
+        let t = document.getElementById('gTitle'), c = document.getElementById('gCurrent'), g = document.getElementById('gTarget'), d = document.getElementById('gDate');
+        if(t && t.value.trim() !== "") { goals.push({ title: t.value.trim(), current: parseFloat(c.value) || 0, target: parseFloat(g.value) || 1, date: d.value || "" }); t.value = ""; c.value = "0"; g.value = "500"; d.value = ""; drawGoals(); }
     }
-
-    function delMilestone(i) {
-        goals.splice(i, 1);
-        drawGoals();
-    }
-
+    function delMilestone(i) { goals.splice(i, 1); drawGoals(); }
     function exportStr() {
-        let d = {
-            r: document.getElementById('rate').value,
-            t: document.getElementById('tgt').value,
-            o: document.getElementById('tol').value,
-            p: document.getElementById('pool').value,
-            g: goals
-        };
-        let s = btoa(JSON.stringify(d));
-        navigator.clipboard.writeText(s).then(() => {
-            alert("📋 Export code saved to clipboard!");
-        }).catch(() => {
-            alert("Code:\n\n" + s);
-        });
+        let d = { r: document.getElementById('rate').value, t: document.getElementById('tgt').value, o: document.getElementById('tol').value, p: document.getElementById('pool').value, g: goals };
+        let s = btoa(JSON.stringify(d)); navigator.clipboard.writeText(s).then(() => { alert("📋 Workspace profile export saved to clipboard!"); }).catch(() => { alert("Code:\n\n" + s); });
     }
-
     function importStr() {
         let c = prompt("PASTE BACKUP STRING:");
         if(c) {
             try {
                 let d = JSON.parse(atob(c.trim()));
-                if(d.r) document.getElementById('rate').value = d.r;
-                if(d.t) document.getElementById('tgt').value = d.t;
-                if(d.o) document.getElementById('tol').value = d.o;
-                if(d.p) document.getElementById('pool').value = d.p;
-                if(d.g) goals = d.g;
-                calcProjections();
-                matchEngine();
-                drawGoals();
-                alert("📥 Profile restored!");
-            } catch(e) {
-                alert("❌ Format parse error.");
-            }
+                if(d.r) document.getElementById('rate').value = d.r; if(d.t) document.getElementById('tgt').value = d.t; if(d.o) document.getElementById('tol').value = d.o; if(d.p) document.getElementById('pool').value = d.p; if(d.g) goals = d.g;
+                calcProjections(); matchEngine(); drawGoals(); alert("📥 Profile restored!");
+            } catch(e) { alert("❌ Format parse error."); }
         }
     }
 </script>
