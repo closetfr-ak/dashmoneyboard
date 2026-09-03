@@ -26,6 +26,16 @@
         .wide { grid-column: span 2; border-color: var(--peony); }
         .val { font-size: 18px; font-weight: 600; margin-top: 2px; }
         .feed { background: var(--bg); border: 1px solid var(--olive); border-radius: 10px; max-height: 240px; overflow-y: auto; }
+        
+        /* Tactical Blueprints Styles */
+        .blueprint-card { background: var(--bg); border: 1px solid var(--olive); border-radius: 12px; padding: 14px; margin-bottom: 10px; border-left: 4px solid var(--lime); }
+        .blueprint-card.sprint { border-left-color: var(--peony); }
+        .bp-header { display: flex; justify-content: space-between; font-weight: 600; font-size: 15px; margin-bottom: 4px; }
+        .bp-title { color: var(--dew); }
+        .bp-metric { color: var(--lime); }
+        .blueprint-card.sprint .bp-metric { color: var(--peony); }
+        .bp-desc { font-size: 13px; color: var(--label); line-height: 1.4; }
+
         .match { padding: 12px; border-bottom: 1px solid rgba(88,91,10,0.2); display: flex; justify-content: space-between; align-items: center; gap: 12px; }
         .match:last-child { border-bottom: none; }
         .m-content { flex-grow: 1; }
@@ -35,27 +45,68 @@
         .m-det { font-size: 13px; opacity: 0.8; word-break: break-all; }
         .btn { background: var(--olive); color: var(--dew); border: none; padding: 14px; border-radius: 10px; font-size: 15px; font-weight: 600; width: 100%; cursor: pointer; display: flex; align-items: center; justify-content: center; margin-top: 8px; }
         .btn:active { opacity: 0.8; }
-        .pny { background: var(--peony); color: var(--bg); }
         .clr-btn { background: transparent; border: 1px solid var(--peony); color: var(--peony); width: auto; padding: 6px 12px; font-size: 12px; border-radius: 8px; cursor: pointer; font-weight: 600; }
         .copy-mix-btn { background: var(--card); border: 1px solid var(--olive); color: var(--lime); padding: 8px 10px; font-size: 11px; font-weight: 600; border-radius: 8px; cursor: pointer; flex-shrink: 0; text-transform: uppercase; }
         .copy-mix-btn:active { background: var(--olive); color: var(--dew); }
-        .g-card { background: var(--bg); padding: 14px; border-radius: 12px; margin-bottom: 10px; border: 1px solid var(--olive); }
-        .g-meta { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 6px; }
-        .g-title { font-weight: 600; color: var(--dew); }
-        .g-amt { color: var(--lime); font-weight: 500; }
-        .p-bar-bg { background: #232717; height: 10px; border-radius: 6px; overflow: hidden; margin: 8px 0; }
-        .p-bar-fill { background: var(--lime); height: 100%; width: 0%; transition: width 0.3s; }
-        .p-bar-fill.done { background: var(--peony); }
-        .g-foot { display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: var(--label); margin-top: 6px; }
-        .del { color: var(--peony); background: none; border: none; font-size: 18px; font-weight: 700; cursor: pointer; }
     </style>
 </head>
 <body>
 <div class="wrap">
     <h1>Active Workspace</h1>
+    
+    <!-- 1. ACTIVE SHIFT COCKPIT (OLD PROGRESS CARD OVERHAUL) -->
     <div class="box">
-        <h2>💰 Savings Projections</h2>
-        <label>Savings Rate Amount</label>
+        <h2>⚡ Live Shift Tracker</h2>
+        <div class="grid" style="margin-top:0; margin-bottom:12px;">
+            <div>
+                <label>Target Income Goal</label>
+                <div class="row"><span class="sign">$</span><input type="number" id="tgt" class="sign-pad" value="150.00" oninput="executeShiftMath()"></div>
+            </div>
+            <div>
+                <label>Made So Far</label>
+                <div class="row"><span class="sign">$</span><input type="number" id="made" class="sign-pad" value="100.00" oninput="executeShiftMath()"></div>
+            </div>
+        </div>
+
+        <div class="item wide" style="margin-bottom: 14px; background: var(--bg); border: 1px solid var(--olive); text-align: center; padding: 12px;">
+            <label style="letter-spacing: 1px;">Remaining Shift Deficit</label>
+            <div class="val" id="deficitAmt" style="font-size: 26px; color: var(--lime); font-weight: 700;">$0.00</div>
+        </div>
+
+        <h2>📋 Recommended Closure Blueprints</h2>
+        <div id="blueprintContainer"></div>
+    </div>
+
+    <!-- 2. PARAMETERS & MATHEMATICAL AUTO-GENERATOR -->
+    <div class="box">
+        <h2>⚙️ Order Profile Parameters</h2>
+        <div class="grid" style="margin-top:0; margin-bottom:12px;">
+            <div>
+                <label>Min Order Size ($)</label>
+                <input type="number" id="minSize" value="7.00" step="1.00" oninput="executeShiftMath()">
+            </div>
+            <div>
+                <label>Max Order Size ($)</label>
+                <input type="number" id="maxSize" value="25.00" step="1.00" oninput="executeShiftMath()">
+            </div>
+        </div>
+        <label>Tolerance Window (± Variance Window)</label>
+        <div class="row"><span class="sign">$</span><input type="number" id="tol" class="sign-pad" value="1.00" step="0.25" oninput="matchEngine()"></div>
+        
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <label style="margin-bottom: 0;">Auto-Generated Calculation Pool</label>
+            <button class="clr-btn" onclick="executeShiftMath()">Re-Roll Pool</button>
+        </div>
+        <textarea id="pool" rows="3" oninput="matchEngine()" placeholder="Computing numbers..."></textarea>
+        
+        <label style="margin: 10px 0 6px 0;">Exact Math Combination Combinations</label>
+        <div class="feed" id="out"></div>
+    </div>
+
+    <!-- 3. PROJECTED FUTURE BENCHMARKS -->
+    <div class="box">
+        <h2>💰 Long-Term Projections Benchmark</h2>
+        <label>Estimated Daily Reserve Transfer Rate</label>
         <div class="row"><span class="sign">$</span><input type="number" id="rate" class="sign-pad" value="25.00" oninput="calcProjections()"></div>
         <div class="grid">
             <div class="item"><label>Per Day</label><div class="val" id="d">$0.00</div></div>
@@ -65,99 +116,108 @@
             <div class="item wide"><label>Per Year Projection</label><div class="val" id="y">$0.00</div></div>
         </div>
     </div>
-    <div class="box">
-        <h2>🎯 Auto-Generated Target Plans</h2>
-        <label>Target Shift Payout Goal</label>
-        <div class="row"><span class="sign">$</span><input type="number" id="tgt" class="sign-pad" value="60.00" oninput="regeneratePool()"></div>
-        <div class="grid" style="margin-top:0; margin-bottom:12px;">
-            <div>
-                <label>Min Order Size ($)</label>
-                <input type="number" id="minSize" value="5.00" step="1.00" oninput="regeneratePool()">
-            </div>
-            <div>
-                <label>Max Order Size ($)</label>
-                <input type="number" id="maxSize" value="45.00" step="1.00" oninput="regeneratePool()">
-            </div>
-        </div>
-        <label>Tolerance Window (± Offset)</label>
-        <div class="row"><span class="sign">$</span><input type="number" id="tol" class="sign-pad" value="1.00" step="0.25" oninput="matchEngine()"></div>
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-            <label style="margin-bottom: 0;">Calculated Math Order Pool</label>
-            <button class="clr-btn" onclick="regeneratePool()">Re-Roll Pool</button>
-        </div>
-        <textarea id="pool" rows="3" oninput="matchEngine()" placeholder="Generating numbers..."></textarea>
-        <label style="margin: 10px 0 6px 0;">Possible Math Combinations</label>
-        <div class="feed" id="out"></div>
-    </div>
-    <div class="box">
-        <h2>🏁 Progress & Milestones</h2>
-        <div id="gFeed"></div>
-        <div style="border-top: 1px dashed var(--olive); margin-top: 14px; padding-top: 12px;">
-            <label>Goal Title</label>
-            <input type="text" id="gTitle" placeholder="e.g., Emergency Reserve Fund" style="margin-bottom: 10px;">
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
-                <div><label>Current Amount ($)</label><input type="number" id="gCurrent" value="0"></div>
-                <div><label>Target Goal ($)</label><input type="number" id="gTarget" value="500"></div>
-            </div>
-            <label>Target Completion Deadline</label>
-            <input type="date" id="gDate" style="margin-bottom: 10px;">
-            <button class="btn pny" onclick="addMilestone()">＋ Save Progress Metric</button>
-        </div>
-    </div>
+
+    <!-- 4. PROFILE RESTORE UTILITIES -->
     <div class="box" style="border-style: dashed;">
-        <p style="font-size: 12px; color: var(--label); margin-bottom: 8px;">Data auto-saves locally to browser profiles.</p>
+        <p style="font-size: 12px; color: var(--label); margin-bottom: 8px;">Profile system variables auto-save to browser cache.</p>
         <button class="btn" onclick="exportStr()">📋 Clipboard String Export</button>
         <button class="btn" style="background: transparent; border: 1px solid var(--olive);" onclick="importStr()">📥 Load String Backup</button>
     </div>
 </div>
 <script>
-    let goals = [{title: "Weekly Reserve Fund", current: 150, target: 500, date: "2026-09-30"}];
     window.onload = function() {
         if(localStorage.getItem('r')) document.getElementById('rate').value = localStorage.getItem('r');
         if(localStorage.getItem('t')) document.getElementById('tgt').value = localStorage.getItem('t');
+        if(localStorage.getItem('m_so_far')) document.getElementById('made').value = localStorage.getItem('m_so_far');
         if(localStorage.getItem('o')) document.getElementById('tol').value = localStorage.getItem('o');
         if(localStorage.getItem('min_s')) document.getElementById('minSize').value = localStorage.getItem('min_s');
         if(localStorage.getItem('max_s')) document.getElementById('maxSize').value = localStorage.getItem('max_s');
-        if(localStorage.getItem('p')) {
-            document.getElementById('pool').value = localStorage.getItem('p');
-        } else {
-            generateMathPoolValues();
-        }
-        if(localStorage.getItem('g_v2')) {
-            try { goals = JSON.parse(localStorage.getItem('g_v2')) || []; } catch(e) {}
-        }
+        
         calcProjections();
-        matchEngine();
-        drawGoals();
+        executeShiftMath();
     };
+
+    function executeShiftMath() {
+        calculateDeficitAndBlueprints();
+        generateMathPoolValues();
+        matchEngine();
+    }
+
+    function calculateDeficitAndBlueprints() {
+        let tgt = parseFloat(document.getElementById('tgt').value) || 0;
+        let made = parseFloat(document.getElementById('made').value) || 0;
+        let minS = parseFloat(document.getElementById('minSize').value) || 1;
+        let maxS = parseFloat(document.getElementById('maxSize').value) || 1;
+        
+        localStorage.setItem('t', tgt);
+        localStorage.setItem('m_so_far', made);
+
+        let deficit = Math.max(0, tgt - made);
+        document.getElementById('deficitAmt').innerText = `$${deficit.toFixed(2)}`;
+
+        let container = document.getElementById('blueprintContainer');
+        if (!container) return;
+
+        if (deficit <= 0) {
+            container.innerHTML = `<div style="padding:10px; text-align:center; color:var(--lime); font-weight:600;">🎉 Shift Target Secured! Log off clean.</div>`;
+            return;
+        }
+
+        // 1. COMPUTING VOLUME BLUEPRINT
+        let volumeCount = Math.ceil(deficit / minS);
+        let volumeAvg = deficit / volumeCount;
+
+        // 2. COMPUTING SPRINT BLUEPRINT
+        let sprintCount = Math.ceil(deficit / maxS);
+        let sprintAvg = deficit / sprintCount;
+
+        container.innerHTML = `
+            <div class="blueprint-card sprint">
+                <div class="bp-header">
+                    <span class="bp-title">🏃‍♂️ The Sprint Path</span>
+                    <span class="bp-metric">${sprintCount} premium orders</span>
+                </div>
+                <div class="bp-desc">Look for high-payload offers averaging roughly <strong>$${sprintAvg.toFixed(2)}</strong> to finish the shift fast.</div>
+            </div>
+            <div class="blueprint-card">
+                <div class="bp-header">
+                    <span class="bp-title">🔄 The Volume Path</span>
+                    <span class="bp-metric">${volumeCount} steady orders</span>
+                </div>
+                <div class="bp-desc">Accept quick-turnaround standard base offers averaging roughly <strong>$${volumeAvg.toFixed(2)}</strong> to grind out the gap.</div>
+            </div>
+        `;
+    }
+
     function generateMathPoolValues() {
-        let tgt = parseFloat(document.getElementById('tgt').value) || 60;
+        let tgt = parseFloat(document.getElementById('tgt').value) || 0;
+        let made = parseFloat(document.getElementById('made').value) || 0;
+        let deficit = Math.max(0, tgt - made);
+        
         let minS = parseFloat(document.getElementById('minSize').value) || 5;
-        let maxS = parseFloat(document.getElementById('maxSize').value) || 45;
+        let maxS = parseFloat(document.getElementById('maxSize').value) || 25;
+        
         localStorage.setItem('min_s', minS);
         localStorage.setItem('max_s', maxS);
+        
         let pieces = [];
         let randomCentOptions = [0.00, 0.25, 0.50, 0.75];
         
-        if (maxS > tgt) maxS = tgt;
-        
-        if (maxS >= 25) {
-            let highOrderCount = Math.floor(Math.random() * 2) + 1;
-            for(let h=0; h<highOrderCount; h++) {
-                let rawHigh = 25 + (Math.random() * (maxS - 25));
-                let change = randomCentOptions[Math.floor(Math.random() * randomCentOptions.length)];
-                let highVal = Math.floor(rawHigh) + change;
-                if(highVal <= tgt) pieces.push(parseFloat(highVal.toFixed(2)));
-            }
+        if (deficit <= 0) {
+            document.getElementById('pool').value = "";
+            return;
         }
-        
+
+        let constraintCeiling = Math.min(maxS, deficit + 5);
         let runCount = 0;
-        while(pieces.reduce((a,b)=>a+b, 0) < (tgt * 1.5) && pieces.length < 13 && runCount < 150) {
+        
+        while(pieces.reduce((a,b)=>a+b, 0) < (deficit * 1.5) && pieces.length < 13 && runCount < 200) {
             runCount++;
-            let rawVal = minS + (Math.random() * (Math.min(maxS, 24) - minS));
+            let rawVal = minS + (Math.random() * (constraintCeiling - minS));
             let change = randomCentOptions[Math.floor(Math.random() * randomCentOptions.length)];
             let orderVal = Math.floor(rawVal) + change;
-            if(orderVal >= minS && orderVal <= maxS && orderVal <= tgt) {
+            
+            if(orderVal >= minS && orderVal <= constraintCeiling) {
                 pieces.push(parseFloat(orderVal.toFixed(2)));
             }
         }
@@ -166,26 +226,50 @@
         document.getElementById('pool').value = pieces.join(', ');
         localStorage.setItem('p', pieces.join(', '));
     }
-    function regeneratePool() { generateMathPoolValues(); matchEngine(); }
+
     function calcProjections() {
-        let a = parseFloat(document.getElementById('rate').value) || 0; localStorage.setItem('r', a);
+        let a = parseFloat(document.getElementById('rate').value) || 0;
+        localStorage.setItem('r', a);
         document.getElementById('d').innerText = `$${a.toFixed(2)}`;
         document.getElementById('w').innerText = `$${(a * 7).toFixed(2)}`;
         document.getElementById('m').innerText = `$${(a * 30.42).toFixed(2)}`;
         document.getElementById('q').innerText = `$${(a * 91.25).toFixed(2)}`;
         document.getElementById('y').innerText = `$${(a * 365).toFixed(2)}`;
     }
-    function clipMix(textVal) { navigator.clipboard.writeText(textVal).then(() => { alert("📋 Combination copied to your clipboard!"); }).catch(() => { alert("Plan breakdown:\n" + textVal); }); }
+
+    function clipMix(textVal) {
+        navigator.clipboard.writeText(textVal).then(() => {
+            alert("📋 Combination copied to your clipboard!");
+        }).catch(() => {
+            alert("Plan breakdown:\n" + textVal);
+        });
+    }
     
     function matchEngine() {
-        let t = parseFloat(document.getElementById('tgt').value) || 0;
+        let tgt = parseFloat(document.getElementById('tgt').value) || 0;
+        let made = parseFloat(document.getElementById('made').value) || 0;
+        let deficit = Math.max(0, tgt - made);
+        
         let o = parseFloat(document.getElementById('tol').value) || 0;
         let p = document.getElementById('pool').value || "";
         let f = document.getElementById('out'); if(!f) return;
-        localStorage.setItem('t', t); localStorage.setItem('o', o); localStorage.setItem('p', p);
-        let lo = t - o, hi = t + o;
+        
+        localStorage.setItem('o', o);
+        localStorage.setItem('p', p);
+        
+        if (deficit <= 0) {
+            f.innerHTML = `<div style="padding: 12px; text-align: center; color: var(--label); font-size: 13px;">No gap to calculate. Goal cleared!</div>`;
+            return;
+        }
+
+        let lo = deficit - o;
+        let hi = deficit + o;
         let items = p.split(',').map(x => parseFloat(x.trim())).filter(x => !isNaN(x) && x > 0 && x <= hi);
-        if(items.length === 0) { f.innerHTML = `<div style="padding: 12px; text-align: center; color: var(--label); font-size: 13px;">Awaiting order numbers...</div>`; return; }
+
+        if(items.length === 0) {
+            f.innerHTML = `<div style="padding: 12px; text-align: center; color: var(--label); font-size: 13px;">Adjust parameters or click Re-Roll Pool.</div>`;
+            return;
+        }
         
         let res = [];
         let lim = Math.min(items.length, 14);
@@ -194,46 +278,59 @@
         
         for (let i = 1; i < combos; i++) {
             let sub = [], sum = 0;
-            for (let j = 0; j < pool.length; j++) { if ((i & (1 << j)) !== 0) { sub.push(pool[j]); sum += pool[j]; } }
-            if (sum >= lo && sum <= hi) { res.push({ tot: parseFloat(sum.toFixed(2)), cnt: sub.length, det: sub.map(n => `$${n.toFixed(2)}`).join(' + ') }); }
+            for (let j = 0; j < pool.length; j++) {
+                if ((i & (1 << j)) !== 0) { sub.push(pool[j]); sum += pool[j]; }
+            }
+            if (sum >= lo && sum <= hi) {
+                res.push({
+                    tot: parseFloat(sum.toFixed(2)),
+                    cnt: sub.length,
+                    det: sub.map(n => `$${n.toFixed(2)}`).join(' + ')
+                });
+            }
         }
-        res.sort((a,b) => Math.abs(t - a.tot) - Math.abs(t - b.tot) || a.cnt - b.cnt);
-        if(res.length === 0) { f.innerHTML = `<div style="padding: 12px; text-align: center; color: var(--peony); font-size: 13px;">⚠️ No matches fit parameters. Click Re-Roll Pool.</div>`; return; }
+
+        res.sort((a,b) => Math.abs(deficit - a.tot) - Math.abs(deficit - b.tot) || a.cnt - b.cnt);
+
+        if(res.length === 0) {
+            f.innerHTML = `<div style="padding: 12px; text-align: center; color: var(--peony); font-size: 13px;">⚠️ No exact matches hit the variance window. Try Re-Rolling the Pool.</div>`;
+            return;
+        }
+
         f.innerHTML = "";
         res.slice(0, 25).forEach(m => {
             let b = document.createElement('div'); b.className = 'match';
-            let clipPayload = `Total: $${m.tot.toFixed(2)} (${m.cnt} orders) -> ${m.det}`;
-            b.innerHTML = `<div class="m-content"><div class="m-meta"><span class="m-sum">$${m.tot.toFixed(2)}</span><span class="m-qty">${m.cnt} orders</span></div><div class="m-det">${m.det}</div></div><button class="copy-mix-btn" onclick="clipMix('${clipPayload}')">Copy</button>`;
+            let clipPayload = `Shift Completion Plan [Gap: $${deficit.toFixed(2)}] -> Total: $${m.tot.toFixed(2)} using ${m.cnt} orders: ${m.det}`;
+            b.innerHTML = `
+                <div class="m-content">
+                    <div class="m-meta">
+                        <span class="m-sum">$${m.tot.toFixed(2)}</span>
+                        <span class="m-qty">${m.cnt} orders</span>
+                    </div>
+                    <div class="m-det">${m.det}</div>
+                </div>
+                <button class="copy-mix-btn" onclick="clipMix('${clipPayload}')">Copy</button>
+            `;
             f.appendChild(b);
         });
     }
-    function drawGoals() {
-        let b = document.getElementById('gFeed'); if(!b) return; b.innerHTML = "";
-        if(goals.length === 0) { b.innerHTML = `<div style="padding: 8px; text-align: center; color: var(--label); font-size: 13px;">No metric bars setup yet.</div>`; return; }
-        goals.forEach((g, i) => {
-            let pct = Math.min(Math.round((g.current / g.target) * 100), 100); if(isNaN(pct) || pct < 0) pct = 0;
-            let r = document.createElement('div'); r.className = 'g-card';
-            r.innerHTML = `<div class="g-meta"><span class="g-title">🏁 ${g.title}</span><span class="g-amt">$${g.current} / $${g.target}</span></div><div class="p-bar-bg"><div class="p-bar-fill ${pct >= 100 ? 'done' : ''}" style="width: ${pct}%"></div></div><div class="g-foot"><span>Progress: ${pct}% ${g.date ? ' | Due: ' + g.date : ''}</span><button class="del" onclick="delMilestone(${i})">×</button></div>`;
-            b.appendChild(r);
-        });
-        localStorage.setItem('g_v2', JSON.stringify(goals));
-    }
-    function addMilestone() {
-        let t = document.getElementById('gTitle'), c = document.getElementById('gCurrent'), g = document.getElementById('gTarget'), d = document.getElementById('gDate');
-        if(t && t.value.trim() !== "") { goals.push({ title: t.value.trim(), current: parseFloat(c.value) || 0, target: parseFloat(g.value) || 1, date: d.value || "" }); t.value = ""; c.value = "0"; g.value = "500"; d.value = ""; drawGoals(); }
-    }
-    function delMilestone(i) { goals.splice(i, 1); drawGoals(); }
+
     function exportStr() {
-        let d = { r: document.getElementById('rate').value, t: document.getElementById('tgt').value, o: document.getElementById('tol').value, p: document.getElementById('pool').value, g: goals };
+        let d = { r: document.getElementById('rate').value, t: document.getElementById('tgt').value, o: document.getElementById('tol').value, p: document.getElementById('pool').value, m_so_far: document.getElementById('made').value };
         let s = btoa(JSON.stringify(d)); navigator.clipboard.writeText(s).then(() => { alert("📋 Workspace profile export saved to clipboard!"); }).catch(() => { alert("Code:\n\n" + s); });
     }
+
     function importStr() {
         let c = prompt("PASTE BACKUP STRING:");
         if(c) {
             try {
                 let d = JSON.parse(atob(c.trim()));
-                if(d.r) document.getElementById('rate').value = d.r; if(d.t) document.getElementById('tgt').value = d.t; if(d.o) document.getElementById('tol').value = d.o; if(d.p) document.getElementById('pool').value = d.p; if(d.g) goals = d.g;
-                calcProjections(); matchEngine(); drawGoals(); alert("📥 Profile restored!");
+                if(d.r) document.getElementById('rate').value = d.r;
+                if(d.t) document.getElementById('tgt').value = d.t;
+                if(d.o) document.getElementById('tol').value = d.o;
+                if(d.p) document.getElementById('pool').value = d.p;
+                if(d.m_so_far) document.getElementById('made').value = d.m_so_far;
+                calcProjections(); executeShiftMath(); alert("📥 Profile restored!");
             } catch(e) { alert("❌ Format parse error."); }
         }
     }
