@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Active Metrics Dashboard</title>
+    <!-- Fredoka Font -->
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-dark: #12140B; 
+            --card-bg: #1A1D11;
+            --olive-leaf: #585B0A;
+            --lemon-lime: #D3D858;
+            --sweet-peony: #CE75A1;
+            --honeydew: #F8FFED;
+            --text-secondary: #A3A88E;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Fredoka', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--honeydew);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        header {
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--olive-leaf);
+            padding: 16px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        header h1 {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--honeydew);
+        }
+
+        .workspace {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 16px;
+            padding-bottom: 100px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        h2 {
+            font-size: 18px;
+            color: var(--lemon-lime);
+            margin-bottom: 14px;
+        }
+
+        .input-group {
+            margin-bottom: 16px;
+        }
+
+        label {
+            display: block;
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .prefix {
+            position: absolute;
+            left: 14px;
+            color: var(--lemon-lime);
+            font-weight: 500;
+        }
+
+        input[type="number"], input[type="text"], textarea {
+            width: 100%;
+            background-color: var(--card-bg);
+            border: 1px solid var(--olive-leaf);
+            color: var(--honeydew);
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        input[type="number"].has-prefix {
+            padding-left: 30px;
+        }
+
+        input:focus, textarea:focus {
+            border-color: var(--lemon-lime);
+        }
+
+        .projection-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .proj-item {
+            background-color: var(--card-bg);
+            padding: 14px;
+            border-radius: 12px;
+            border-left: 4px solid var(--sweet-peony);
+        }
+
+        .proj-label {
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        .proj-val {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--honeydew);
+            margin-top: 4px;
+        }
+
+        .results-box {
+            background: var(--card-bg);
+            border: 1px solid var(--olive-leaf);
+            border-radius: 12px;
+            padding: 4px;
+            max-height: 320px;
+            overflow-y: auto;
+        }
+
+        .match-row {
+            padding: 12px;
+            border-bottom: 1px solid rgba(88, 91, 10, 0.4);
+        }
+
+        .match-row:last-child {
+            border-bottom: none;
+        }
+
+        .match-header {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .match-total { color: var(--lemon-lime); font-size: 16px;}
+        .match-count { color: var(--sweet-peony); font-size: 14px;}
+        .match-items { color: var(--honeydew); font-size: 13px; opacity: 0.85; line-height: 1.4; }
+
+        .btn {
+            background-color: var(--olive-leaf);
+            color: var(--honeydew);
+            border: none;
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn:active { opacity: 0.8; }
+        .btn-peony { background-color: var(--sweet-peony); color: var(--bg-dark); }
+        .btn-outline { background-color: transparent; border: 1px solid var(--olive-leaf); color: var(--honeydew); }
+
+        .goal-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--card-bg);
+            padding: 14px;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            border: 1px solid var(--olive-leaf);
+        }
+
+        .goal-del { color: var(--sweet-peony); background: none; border: none; font-size: 20px; font-weight: bold;}
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 75px;
+            background-color: var(--card-bg);
+            border-top: 1px solid var(--olive-leaf);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding-bottom: 12px;
+            z-index: 100;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 11px;
+            font-weight: 500;
+            cursor: pointer;
+            width: 25%;
+            gap: 4px;
+        }
+
+        .nav-item span.icon { font-size: 20px; }
+        .nav-item.active { color: var(--lemon-lime); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1 id="appTitle">💰 Savings View</h1>
+    </header>
+
+    <div class="workspace">
+        
+        <!-- TAB 1: SAVINGS PROJECTIONS -->
+        <div id="tab-savings" class="tab-content active">
+            <h2>💰 Projections Engine</h2>
+            <div class="input-group">
+                <label>Enter Savings Rate Amount</label>
+                <div class="input-wrapper">
+                    <span class="prefix">$</span>
+                    <input type="number" id="savingsRate" class="has-prefix" value="25.00" oninput="calculateSavings()">
+                </div>
+            </div>
+            
+            <label>Timeline Benchmarks</label>
+            <div class="projection-grid">
+                <div class="proj-item"><div class="proj-label">Per Day</div><div class="proj-val" id="sDay">$0.00</div></div>
+                <div class="proj-item"><div class="proj-label">Per Week</div><div class="proj-val" id="sWeek">$0.00</div></div>
+                <div class="proj-item"><div class="proj-label">Per Month</div><div class="proj-val" id="sMonth">$0.00</div></div>
+                <div class="proj-item"><div class="proj-label">Per Quarter</div><div class="proj-val" id="sQuarter">$0.00</div></div>
+                <div class="proj-item" style="grid-column: span 2;"><div class="proj-label">Per Year</div><div class="proj-val" id="sYear">$0.00</div></div>
+            </div>
+        </div>
+
+        <!-- TAB 2: ORDER TARGET MATCHER -->
+        <div id="tab-matcher" class="tab-content">
+            <h2>🎯 Range Combinations</h2>
+            
+            <div class="input-group">
+                <label>Target Payout Amount</label>
+                <div class="input-wrapper">
+                    <span class="prefix">$</span>
+                    <input type="number" id="targetAmount" class="has-prefix" value="100.00" oninput="runMatcher()">
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>Tolerance Range (± Offset Window)</label>
+                <div class="input-wrapper">
+                    <span class="prefix">$</span>
+                    <input type="number" id="toleranceAmt" class="has-prefix" value="2.00" step="0.25" oninput="runMatcher()">
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>Paste Order Pool (Comma Separated)</label>
+                <textarea id="orderPool" rows="3" oninput="runMatcher()">14.23, 8.50, 41.12, 19.99, 25.50, 12.00, 33.45</textarea>
+            </div>
+
+            <h3 style="font-size: 14px; margin-bottom: 8px; color: var(--text-secondary);">OPTIMIZED COMBINATIONS</h3>
+            <div class="results-box" id="matchResults"></div>
+        </div>
+
+        <!-- TAB 3: TRACKING GOALS -->
+        <div id="tab-goals" class="tab-content">
+            <h2>🏁 Goal Milestones</h2>
+            <div id="goalsList"></div>
+            <div class="input-group" style="margin-top: 16px;">
+                <label>Track New Benchmark Title</label>
+                <input type="text" id="newGoalInput" placeholder="e.g., Hit $500 Reserve Fund">
+            </div>
+            <button class="btn btn-peony" onclick="addGoal()">＋ Save New Milestone</button>
+        </div>
+
+        <!-- TAB 4: DATA EXPORTS -->
+        <div id="tab-settings" class="tab-content">
+            <h2>💾 Backup & Data Engine</h2>
