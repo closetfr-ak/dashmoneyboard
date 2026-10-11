@@ -6,24 +6,24 @@
     <title>Active Metrics Workspace</title>
 
     <style>
-        :root { --bg: #0A0B07; --card: #90B56E; --pistachio: #BDD9A2; --jadelime: #A1CA7B; --peony: #CA7C7B; --dew: #F8FFED; --label: #7E856D; --rose: #7b0d3e; }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'SavoryCurry', sans-serif; -webkit-tap-highlight-color: transparent; }
+        :root { --bg: #0A0B07; --card: #90B56E; --pistachio: #BDD9A2; --jadelime: #A1CA7B; --peony: #CA7C7B; --dew: #F8FFED; --label: #7E856D; --rose: #FF4E8E; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'CreatorGenius', sans-serif; -webkit-tap-highlight-color: transparent; }
 
 @font-face {
-  font-family: "ChickenPie";
-  src: url("ChickenPie-8MevB.ttf") format("truetype");
+  font-family: "BrownCake";
+  src: url("Brown-Cake.otf") format("truetype");
   font-weight: 400;
   font-style: normal;
 }
 @font-face {
-  font-family: "SavoryCurry";
-  src: url("Savory-Curry.otf") format("opentype");
+  font-family: "CreatorGenius";
+  src: url("Creator-Genius.ttf") format("opentype");
   font-weight: 400;
   font-style: normal;
 }
 
-h1, h2, h3, .bp-title, val {
-        font-family: "ChickenPie", sans-serif !important;
+h1, h2, h3, .blueprint-card.sprint .bp-metric, .bp-metric, val {
+        font-family: "BrownCake", sans-serif !important;
     }
 
 
@@ -48,11 +48,11 @@ h1, h2, h3, .bp-title, val {
         /* Tactical Blueprints Styles */
         .blueprint-card { background: var(--bg); border: 1px solid var(--pistachio); border-radius: 12px; padding: 14px; margin-bottom: 10px; border-left: 4px solid var(--jadelime); }
         .blueprint-card.sprint { border-left-color: var(--peony); }
-        .bp-header { display: flex; justify-content: space-between; font-weight: 600; font-size: 15px; margin-bottom: 4px; }
+        .bp-header { display: flex; justify-content: space-between; font-weight: 600; font-size: 14px; margin-bottom: 4px; }
         .bp-title { color: var(--dew); }
         .bp-metric { color: var(--jadelime); }
-        .blueprint-card.sprint .bp-metric { color: var(--peony); }
-        .bp-desc { font-size: 13px; color: var(--label); line-height: 1.4; }
+        .blueprint-card.sprint .bp-metric { color: var(--rose); }
+        .bp-desc { font-size: 12px; color: var(--label); line-height: 1.4; }
 
         .match { padding: 12px; border-bottom: 1px solid rgba(88,91,10,0.2); display: flex; justify-content: space-between; align-items: center; gap: 12px; }
         .match:last-child { border-bottom: none; }
@@ -88,7 +88,7 @@ h1, h2, h3, .bp-title, val {
 
         <div class="item wide" style="margin-bottom: 14px; background: var(--bg); border: 1px solid var(--pistachio); text-align: center; padding: 12px;">
             <label style="letter-spacing: 1px; color: var(--dew);">📈Distance to Income Goal</label>
-            <div class="Distance to Income Goal" id="deficitAmt" style="font-size: 26px; color: var(--pistachio); font-weight: 700;">$0.00</div>
+            <div class="Distance to Income Goal" id="deficitAmt" style="font-size: 26px; color: var(--rose); font-weight: 700;">$0.00</div>
         </div>
 
         <h2>📋 Recommended Shift Plans</h2>
@@ -193,14 +193,14 @@ h1, h2, h3, .bp-title, val {
             <div class="blueprint-card sprint">
                 <div class="bp-header">
                     <span class="bp-title">💨 2-Hour Outlook</span>
-                    <span class="bp-metric">${sprintCount} PREMIUM</span>
+                    <span class="bp-metric">${sprintCount} Premium</span>
                 </div>
                 <div class="bp-desc">Look for high-payload offers averaging roughly <strong>$${sprintAvg.toFixed(2)}</strong> to finish the shift fast.</div>
             </div>
             <div class="blueprint-card">
                 <div class="bp-header">
                     <span class="bp-title">🫯 4-Hour Outlook</span>
-                    <span class="bp-metric">${volumeCount} MID ORDERS</span>
+                    <span class="bp-metric">${volumeCount} Mid Orders</span>
                 </div>
                 <div class="bp-desc">Accept quick-turnaround mid-tier offers averaging roughly <strong>$${volumeAvg.toFixed(2)}</strong> to grind out the gap.</div>
             </div>
@@ -354,4 +354,3 @@ h1, h2, h3, .bp-title, val {
     }
 </script>
 </body>
-</html>
