@@ -2,37 +2,51 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     <title>Active Metrics Workspace</title>
-    <link rel="preconnect" href="https://googleapis.com">
-    <link rel="preconnect" href="https://gstatic.com" crossorigin>
-    <link href="https://googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="preconnect" href="https://fonts.bunny.net">
+<link href="https://fonts.bunny.net/css?family=alatsi:400" rel="stylesheet" />
+
     <style>
-        :root { --bg: #0A0B07; --card: #14170F; --olive: #585B0A; --lime: #D3D858; --peony: #CE75A1; --dew: #F8FFED; --label: #7E856D; }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Fredoka', sans-serif; -webkit-tap-highlight-color: transparent; }
+        :root { --bg: #0A0B07; --card: #90B56E; --pistachio: #BDD9A2; --jadelime: #A1CA7B; --peony: #CA7C7B; --dew: #F8FFED; --label: #7E856D; --rose: #CA7C7B; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Alatsi', sans-serif; -webkit-tap-highlight-color: transparent; }
+
+@font-face {
+  font-family: "ChickenPie";
+  src: url("ChickenPie-8MevB.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+h1, h2, h3, .bp-title, val {
+        font-family: "ChickenPie", sans-serif !important;
+    }
+
+
         body { background: var(--bg); color: var(--dew); padding: 16px; overflow-x: hidden; }
         .wrap { max-width: 440px; margin: 0 auto; }
-        h1 { font-size: 24px; text-align: center; margin-bottom: 20px; color: var(--dew); }
-        h2 { font-size: 16px; color: var(--lime); margin-bottom: 14px; }
-        .box { background: var(--card); border: 1px solid var(--olive); border-radius: 16px; padding: 16px; margin-bottom: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.4); }
-        label { display: block; font-size: 11px; color: var(--label); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+        h1 { font-size: 40px; text-align: center; margin-bottom: 20px; color: var(--dew); }
+        h2 { font-size: 16px; color: var(--bg); margin-bottom: 14px; }
+        .box { background: var(--card); border: 1px solid var(--pistachio); border-radius: 16px; padding: 16px; margin-bottom: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.4); }
+        label { display: block; font-size: 14px; color: var(--bg); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
         .row { position: relative; display: flex; align-items: center; margin-bottom: 12px; gap: 8px; }
-        .sign { position: absolute; left: 12px; color: var(--lime); font-weight: 600; }
-        input, textarea, select { width: 100%; background: var(--bg); border: 1px solid var(--olive); color: var(--dew); padding: 12px; border-radius: 10px; font-size: 16px; outline: none; }
+        .sign { position: absolute; left: 12px; color: var(--pistachio); font-weight: 700; }
+        input, textarea, select { width: 100%; background: var(--bg); border: 1px solid var(--pistachio); color: var(--dew); padding: 12px; border-radius: 10px; font-size: 16px; outline: none; }
         input.sign-pad { padding-left: 26px; }
-        input:focus, textarea:focus, select:focus { border-color: var(--lime); }
+        input:focus, textarea:focus, select:focus { border-color: var(--jadelime); }
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
-        .item { background: var(--bg); padding: 10px; border-radius: 8px; border-bottom: 2px solid var(--olive); }
+        .item { background: var(--bg); padding: 10px; border-radius: 8px; border-bottom: 2px solid var(--pistachio); }
         .wide { grid-column: span 2; border-color: var(--peony); }
         .val { font-size: 18px; font-weight: 600; margin-top: 2px; }
-        .feed { background: var(--bg); border: 1px solid var(--olive); border-radius: 10px; max-height: 240px; overflow-y: auto; }
+        .feed { background: var(--bg); border: 1px solid var(--pistachio); border-radius: 10px; max-height: 240px; overflow-y: auto; }
         
         /* Tactical Blueprints Styles */
-        .blueprint-card { background: var(--bg); border: 1px solid var(--olive); border-radius: 12px; padding: 14px; margin-bottom: 10px; border-left: 4px solid var(--lime); }
+        .blueprint-card { background: var(--bg); border: 1px solid var(--pistachio); border-radius: 12px; padding: 14px; margin-bottom: 10px; border-left: 4px solid var(--jadelime); }
         .blueprint-card.sprint { border-left-color: var(--peony); }
         .bp-header { display: flex; justify-content: space-between; font-weight: 600; font-size: 15px; margin-bottom: 4px; }
         .bp-title { color: var(--dew); }
-        .bp-metric { color: var(--lime); }
+        .bp-metric { color: var(--jadelime); }
         .blueprint-card.sprint .bp-metric { color: var(--peony); }
         .bp-desc { font-size: 13px; color: var(--label); line-height: 1.4; }
 
@@ -40,73 +54,73 @@
         .match:last-child { border-bottom: none; }
         .m-content { flex-grow: 1; }
         .m-meta { display: flex; justify-content: space-between; margin-bottom: 2px; font-weight: 600; }
-        .m-sum { color: var(--lime); }
+        .m-sum { color: var(--jadelime); }
         .m-qty { color: var(--peony); font-size: 12px; }
         .m-det { font-size: 13px; opacity: 0.8; word-break: break-all; }
-        .btn { background: var(--olive); color: var(--dew); border: none; padding: 14px; border-radius: 10px; font-size: 15px; font-weight: 600; width: 100%; cursor: pointer; display: flex; align-items: center; justify-content: center; margin-top: 8px; }
+        .btn { background: var(--pistachio); color: var(--dew); border: none; padding: 14px; border-radius: 10px; font-size: 15px; font-weight: 600; width: 100%; cursor: pointer; display: flex; align-items: center; justify-content: center; margin-top: 8px; }
         .btn:active { opacity: 0.8; }
         .clr-btn { background: transparent; border: 1px solid var(--peony); color: var(--peony); width: auto; padding: 6px 12px; font-size: 12px; border-radius: 8px; cursor: pointer; font-weight: 600; }
-        .copy-mix-btn { background: var(--card); border: 1px solid var(--olive); color: var(--lime); padding: 8px 10px; font-size: 11px; font-weight: 600; border-radius: 8px; cursor: pointer; flex-shrink: 0; text-transform: uppercase; }
-        .copy-mix-btn:active { background: var(--olive); color: var(--dew); }
+        .copy-mix-btn { background: var(--card); border: 1px solid var(--pistachio); color: var(--jadelime); padding: 8px 10px; font-size: 11px; font-weight: 600; border-radius: 8px; cursor: pointer; flex-shrink: 0; text-transform: uppercase; }
+        .copy-mix-btn:active { background: var(--pistachio); color: var(--dew); }
     </style>
 </head>
 <body>
 <div class="wrap">
-    <h1>Active Workspace</h1>
+    <h1>Shift Dashboard</h1>
     
     <!-- 1. ACTIVE SHIFT COCKPIT (OLD PROGRESS CARD OVERHAUL) -->
     <div class="box">
-        <h2>⚡ Live Shift Tracker</h2>
+        <h2>⚡ LIVE Shift Tracker</h2>
         <div class="grid" style="margin-top:0; margin-bottom:12px;">
             <div>
-                <label>Target Income Goal</label>
+                <label>Earnings Goal</label>
                 <div class="row"><span class="sign">$</span><input type="number" id="tgt" class="sign-pad" value="150.00" oninput="executeShiftMath()"></div>
             </div>
             <div>
-                <label>Made So Far</label>
+                <label>Earned So Far</label>
                 <div class="row"><span class="sign">$</span><input type="number" id="made" class="sign-pad" value="100.00" oninput="executeShiftMath()"></div>
             </div>
         </div>
 
-        <div class="item wide" style="margin-bottom: 14px; background: var(--bg); border: 1px solid var(--olive); text-align: center; padding: 12px;">
-            <label style="letter-spacing: 1px;">Remaining Shift Deficit</label>
-            <div class="val" id="deficitAmt" style="font-size: 26px; color: var(--lime); font-weight: 700;">$0.00</div>
+        <div class="item wide" style="margin-bottom: 14px; background: var(--bg); border: 1px solid var(--pistachio); text-align: center; padding: 12px;">
+            <label style="letter-spacing: 1px; color: var(--jadelime);">📈Distance to Income Goal</label>
+            <div class="Distance to Income Goal" id="deficitAmt" style="font-size: 26px; color: var(--rose); font-weight: 700;">$0.00</div>
         </div>
 
-        <h2>📋 Recommended Closure Blueprints</h2>
+        <h2>📋 Recommended Shift Plans</h2>
         <div id="blueprintContainer"></div>
     </div>
 
     <!-- 2. PARAMETERS & MATHEMATICAL AUTO-GENERATOR -->
     <div class="box">
-        <h2>⚙️ Order Profile Parameters</h2>
+        <h2>⚙️ Build My Earnings Mix</h2>
         <div class="grid" style="margin-top:0; margin-bottom:12px;">
             <div>
-                <label>Min Order Size ($)</label>
+                <label>Min Offer Amount ($)</label>
                 <input type="number" id="minSize" value="7.00" step="1.00" oninput="executeShiftMath()">
             </div>
             <div>
-                <label>Max Order Size ($)</label>
+                <label>Max Offer Amount ($)</label>
                 <input type="number" id="maxSize" value="25.00" step="1.00" oninput="executeShiftMath()">
             </div>
         </div>
-        <label>Tolerance Window (± Variance Window)</label>
+        <label>Tolerance (± Breathing Range)</label>
         <div class="row"><span class="sign">$</span><input type="number" id="tol" class="sign-pad" value="1.00" step="0.25" oninput="matchEngine()"></div>
         
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-            <label style="margin-bottom: 0;">Auto-Generated Calculation Pool</label>
-            <button class="clr-btn" onclick="executeShiftMath()">Re-Roll Pool</button>
+            <label style="margin-bottom: 0;">Auto-Generated Earnings Mix</label>
+            <button class="clr-btn" onclick="executeShiftMath()">RECALCULATE</button>
         </div>
         <textarea id="pool" rows="3" oninput="matchEngine()" placeholder="Computing numbers..."></textarea>
         
-        <label style="margin: 10px 0 6px 0;">Exact Math Combination Combinations</label>
+        <label style="margin: 10px 0 6px 0;">Exact Earnings Mix</label>
         <div class="feed" id="out"></div>
     </div>
 
     <!-- 3. PROJECTED FUTURE BENCHMARKS -->
     <div class="box">
-        <h2>💰 Long-Term Projections Benchmark</h2>
-        <label>Estimated Daily Reserve Transfer Rate</label>
+        <h2>💰 The Pace</h2>
+        <label>Estimated Daily Save</label>
         <div class="row"><span class="sign">$</span><input type="number" id="rate" class="sign-pad" value="25.00" oninput="calcProjections()"></div>
         <div class="grid">
             <div class="item"><label>Per Day</label><div class="val" id="d">$0.00</div></div>
@@ -120,8 +134,8 @@
     <!-- 4. PROFILE RESTORE UTILITIES -->
     <div class="box" style="border-style: dashed;">
         <p style="font-size: 12px; color: var(--label); margin-bottom: 8px;">Profile system variables auto-save to browser cache.</p>
-        <button class="btn" onclick="exportStr()">📋 Clipboard String Export</button>
-        <button class="btn" style="background: transparent; border: 1px solid var(--olive);" onclick="importStr()">📥 Load String Backup</button>
+        <button class="btn" onclick="exportStr()">🗝️ Clipboard String Export</button>
+        <button class="btn" style="background: transparent; border: 1px solid var(--pistachio);" onclick="importStr()">🗝️ Load String Backup</button>
     </div>
 </div>
 <script>
@@ -159,7 +173,7 @@
         if (!container) return;
 
         if (deficit <= 0) {
-            container.innerHTML = `<div style="padding:10px; text-align:center; color:var(--lime); font-weight:600;">🎉 Shift Target Secured! Log off clean.</div>`;
+            container.innerHTML = `<div style="padding:10px; text-align:center; color:var(--jadelime); font-weight:600;">💸 Shift Target Secured! Log off clean.</div>`;
             return;
         }
 
@@ -174,17 +188,17 @@
         container.innerHTML = `
             <div class="blueprint-card sprint">
                 <div class="bp-header">
-                    <span class="bp-title">🏃‍♂️ The Sprint Path</span>
+                    <span class="bp-title">💨 2-Hour Outlook</span>
                     <span class="bp-metric">${sprintCount} premium orders</span>
                 </div>
                 <div class="bp-desc">Look for high-payload offers averaging roughly <strong>$${sprintAvg.toFixed(2)}</strong> to finish the shift fast.</div>
             </div>
             <div class="blueprint-card">
                 <div class="bp-header">
-                    <span class="bp-title">🔄 The Volume Path</span>
+                    <span class="bp-title">4-Hour Outlook</span>
                     <span class="bp-metric">${volumeCount} steady orders</span>
                 </div>
-                <div class="bp-desc">Accept quick-turnaround standard base offers averaging roughly <strong>$${volumeAvg.toFixed(2)}</strong> to grind out the gap.</div>
+                <div class="bp-desc">Accept quick-turnaround mid-tier offers averaging roughly <strong>$${volumeAvg.toFixed(2)}</strong> to grind out the gap.</div>
             </div>
         `;
     }
@@ -239,7 +253,7 @@
 
     function clipMix(textVal) {
         navigator.clipboard.writeText(textVal).then(() => {
-            alert("📋 Combination copied to your clipboard!");
+            alert("📋 Earnings Plan copied to your clipboard!");
         }).catch(() => {
             alert("Plan breakdown:\n" + textVal);
         });
